@@ -36,14 +36,14 @@
 
 /*! Returns the Device UID.
     The UID is obtained in a chain of fallbacks:
-      - Keychain
+      - ~Keychain~ disable this as it seems newly setup devices can get a duplicate ID -- JasonM
       - NSUserDefaults
       - Apple IFV (Identifier for Vendor)
       - Generate a random UUID if everything else is unavailable
     At last, the UID is persisted if needed to.
  */
 - (NSString *)uid {
-    if (!_uid) _uid = [[self class] valueForKeychainKey:_uidKey service:_uidKey];
+    // if (!_uid) _uid = [[self class] valueForKeychainKey:_uidKey service:_uidKey];
     if (!_uid) _uid = [[self class] valueForUserDefaultsKey:_uidKey];
     if (!_uid) _uid = [[self class] appleIFV];
     if (!_uid) _uid = [[self class] randomUUID];
@@ -57,9 +57,9 @@
   if (![DeviceUID valueForUserDefaultsKey:_uidKey]) {
     [DeviceUID setValue:_uid forUserDefaultsKey:_uidKey];
   }
-  if (![DeviceUID valueForKeychainKey:_uidKey service:_uidKey]) {
-    [DeviceUID setValue:_uid forKeychainKey:_uidKey inService:_uidKey];
-  }
+  //if (![DeviceUID valueForKeychainKey:_uidKey service:_uidKey]) {
+  //  [DeviceUID setValue:_uid forKeychainKey:_uidKey inService:_uidKey];
+  //}
 }
 
 #pragma mark - Keychain methods
